@@ -21,6 +21,15 @@ f = open("img/img-1.jpg", "wb")
 f.write(imatge_desc.content)
 '''
 
+ruta_imatges = sopa.select(".size-large")
+indice = 1
+for img in ruta_imatges:
+    ruta_imatge = img['src']
+    imatge_desc = requests.get(ruta_imatge)
+    f = open("img/imagen-" + str(indice) + ".jpg", "wb")
+    f.write(imatge_desc.content)
+    indice += 1
+    f.close()
 
 
 
