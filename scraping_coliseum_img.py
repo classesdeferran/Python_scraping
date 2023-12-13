@@ -1,17 +1,45 @@
+# Librerias necesarias
 import requests
 from bs4 import BeautifulSoup
 
+# ruta a scrapear
 url = "https://www.centrocoliseum.com/"
+# descargamos el código, que quedará como string
 pagina = requests.get(url)
 
+# lo reconvertimos a html
 sopa = BeautifulSoup(pagina.text, 'html.parser')
 
-ruta_imatge = sopa.select(".size-large")[0]['src']
-# print(imatge)
-
-imatge_desc = requests.get(ruta_imatge)
+'''
+# Ejemplo de descarga de una sola imagen
+ruta_imatges = sopa.select(".size-large")[0]['src']
+# Se descarga código binario
+# print(ruta_imatges)
+imatge_desc = requests.get(ruta_imatges)
 # print(imatge_desc.text)
 f = open("img/img-1.jpg", "wb")
 f.write(imatge_desc.content)
+'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+etiquetes_imatges = sopa.select(".size-large")
+contador = 1
+for etiqueta_imatge in etiquetes_imatges:
+    ruta_imatge = etiqueta_imatge['src']
+    imatge_desc = requests.get(ruta_imatge)
+    f = open("img/img-" + str(contador) + ".jpg", "wb")
+    f.write(imatge_desc.content)
+    contador += 1
 
 f.close()
